@@ -23,30 +23,35 @@
      ```
 
 2. **运行应用**：
-   - 打开终端或命令提示符，导航到包含`FoodRankingApp.py`的目录。
+   - 打开终端或命令提示符，导航到包含`Food_Ranking`的目录。
    - 运行以下命令启动应用：
      ```bash
-     python FoodRankingApp.py
+     python main.py
+     python web.py
      ```
 
 3. **使用应用**：
    - 选择图像文件并输入评分和备注信息。
    - 点击“提交”按钮保存数据并生成排名。
-   - 查看生成的`data.csv`和`rank.csv`文件以获取结果。
+   - 查看web端排名看生成的结果
 
 ## 文件结构
 
+
 ```
 Food_Ranking
-├─ app.py
 ├─ data.csv
 ├─ food_picture
-│  └─ 口水鸡.jpg
+│  ├─ 口水鸡.jpg
+│  └─ 油泼面.jpg
 ├─ main.py
 ├─ rank.csv
 ├─ README.md
-└─ templates
-   └─ index.html
+├─ templates
+│  └─ index.html
+├─ web.py
+└─ __pycache__
+   └─ flask.cpython-310.pyc
 
 ```
 ## 注意事项
