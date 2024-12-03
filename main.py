@@ -34,11 +34,11 @@ class FoodRankingApp(QWidget):
         self.layout.addWidget(self.price_input)
 
         self.speed_input = QLineEdit()
-        self.speed_input.setPlaceholderText("餐速度评分 (0-10)")
+        self.speed_input.setPlaceholderText("出餐速度评分 (0-10)")
         self.layout.addWidget(self.speed_input)
 
         self.remark_input = QLineEdit()
-        self.remark_input.setPlaceholderText("备注信息")
+        self.remark_input.setPlaceholderText("备注（用于重命名图像）")
         self.layout.addWidget(self.remark_input)
 
         # 提交按钮
@@ -85,13 +85,12 @@ class FoodRankingApp(QWidget):
         price = float(price)
         speed = float(speed)
 
-        # 存储数据到 data.csv
+        # 存储数据到 data.csv（只包含 Image, Taste, Price, Speed）
         data = {
             'Image': image,
             'Taste': taste,
             'Price': price,
-            'Speed': speed,
-            'Remark': remark
+            'Speed': speed
         }
 
         # 创建 DataFrame
@@ -121,21 +120,21 @@ class FoodRankingApp(QWidget):
         ranked_df = df.sort_values(by='Composite Score', ascending=False)
         ranked_df['Rank'] = range(1, len(ranked_df) + 1)
 
-        # 保存排名到 rank.csv
-        ranked_df.to_csv('rank.csv', index=False)
+        # 保存排名到 rank.csv（只包含 Image, Composite Score, Rank）
+        ranked_df[['Image', 'Composite Score', 'Rank']].to_csv('rank.csv', index=False)
 
         # 处理图片重命名
-        self.rename_image(image, remark, ranked_df)
+        self.rename_image(image, remark)
 
         # 提示用户
         print("排名已生成并保存至 rank.csv")
 
-    def rename_image(self, original_image, remark, ranked_df):
+    def rename_image(self, original_image, remark):
         # 获取文件扩展名
         _, ext = os.path.splitext(original_image)
 
         # 新文件名
-        new_image_name = f"{remark}{ext}"
+        new_image_name = f"{remark}{ext}" if remark else f"{os.path.basename(original_image)}"
         new_image_path = os.path.join('food_picture', new_image_name)
 
         # 移动并重命名文件
@@ -144,20 +143,20 @@ class FoodRankingApp(QWidget):
         print(f"图片已重命名为: {new_image_name}")
 
         # 更新 CSV 文件中的图片名称
-        self.update_csv_with_remark(original_image, remark)
+        self.update_csv_with_image_name(original_image, new_image_name)
 
-    def update_csv_with_remark(self, original_image, remark):
+    def update_csv_with_image_name(self, original_image, new_image_name):
         # 更新 data.csv
         df = pd.read_csv('data.csv')
-        df.loc[df['Image'] == original_image, 'Image'] = remark
+        df.loc[df['Image'] == original_image, 'Image'] = new_image_name
         df.to_csv('data.csv', index=False)
 
         # 更新 rank.csv
         ranked_df = pd.read_csv('rank.csv')
-        ranked_df.loc[ranked_df['Image'] == original_image, 'Image'] = remark
+        ranked_df.loc[ranked_df['Image'] == original_image, 'Image'] = new_image_name
         ranked_df.to_csv('rank.csv', index=False)
 
-        print("CSV 文件中的图片名称已更新为备注内容。")
+        print("CSV 文件中的图片名称已更新。")
 
 if __name__ == "__main__":
     import sys

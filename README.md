@@ -37,14 +37,18 @@
 ## 文件结构
 
 ```
-FoodRankingApp/
-│
-├── FoodRankingApp.py  # 主应用文件
-├── data.csv          # 存储食物评分数据的CSV文件
-├── rank.csv          # 存储排名结果的CSV文件
-└── food_picture/      # 存储上传图片的文件夹
-```
+Food_Ranking
+├─ app.py
+├─ data.csv
+├─ food_picture
+│  └─ 口水鸡.jpg
+├─ main.py
+├─ rank.csv
+├─ README.md
+└─ templates
+   └─ index.html
 
+```
 ## 注意事项
 
 - 确保在运行应用之前已经安装了所有必需的依赖。
@@ -58,3 +62,4 @@ FoodRankingApp/
 ## 贡献
 
 欢迎对本项目进行贡献。如果你有任何改进建议或发现bug，请创建一个issue或pull request。
+
