@@ -115,7 +115,7 @@ class FoodRankingApp(QWidget):
         df = pd.read_csv('data.csv')
 
         # 计算综合评分
-        df['Composite Score'] = df['Taste'] + df['Price'] + df['Speed']
+        df['Composite Score'] = 0.4 * df['Taste'] + 0.3 * df['Price'] + 0.3 * df['Speed']
 
         # 排名
         ranked_df = df.sort_values(by='Composite Score', ascending=False)
